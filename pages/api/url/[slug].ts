@@ -1,40 +1,40 @@
-import { Link, PrismaClient } from '@prisma/client'
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { Link, PrismaClient } from '@prisma/client';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 type Error = {
-  message: string
-}
+  message: string;
+};
 
 const url = async (req: NextApiRequest, res: NextApiResponse<Link | Error>) => {
-  const slug = req.query['slug']
+  const slug = req.query['slug'];
 
-  if(!slug || typeof slug !== 'string') {
+  if (!slug || typeof slug !== 'string') {
     res.status(404).json({
-      message: 'Please use a slug'
-    })
+      message: 'Please use a slug',
+    });
 
-    return
+    return;
   }
 
   const link = await prisma.link.findFirst({
     where: {
       slug: {
-        equals: slug
-      }
-    }
-  })
+        equals: slug,
+      },
+    },
+  });
 
-  if(!link) {
+  if (!link) {
     res.status(404).json({
-      message: 'No link found'
-    })
-    
-    return
+      message: 'No link found',
+    });
+
+    return;
   }
 
-  res.status(200).json(link)
-}
+  res.status(200).json(link);
+};
 
-export default url
+export default url;
