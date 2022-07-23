@@ -6,11 +6,11 @@ export const middleware = async (request: NextRequest) => {
 
   const link = await (await fetch(`${request.nextUrl.origin}/api/url/${paths[2]}`)).json()
 
-  if(!link?.link) {
+  if(!link?.url) {
     return NextResponse.redirect(request.nextUrl.origin)
   }
 
-  return NextResponse.redirect(link.link)
+  return NextResponse.redirect(link.url)
 }
 
 export const config = {
