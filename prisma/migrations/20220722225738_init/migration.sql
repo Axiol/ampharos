@@ -1,6 +1,0 @@
--- CreateTable
-CREATE TABLE "Link" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "link" TEXT NOT NULL,
-    "slug" TEXT NOT NULL
-);
