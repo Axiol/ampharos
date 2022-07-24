@@ -1,4 +1,4 @@
-import { Link, PrismaClient } from '@prisma/client';
+import { Link, PrismaClient, Prisma } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const prisma = new PrismaClient();
@@ -7,7 +7,10 @@ type Error = {
   message: string;
 };
 
-const url = async (req: NextApiRequest, res: NextApiResponse<Link | Error>) => {
+const links = async (
+  req: NextApiRequest,
+  res: NextApiResponse<Link | Error>
+) => {
   const slug = req.query['slug'];
 
   if (!slug || typeof slug !== 'string') {
@@ -37,4 +40,4 @@ const url = async (req: NextApiRequest, res: NextApiResponse<Link | Error>) => {
   res.status(200).json(link);
 };
 
-export default url;
+export default links;

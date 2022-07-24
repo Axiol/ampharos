@@ -15,6 +15,16 @@ const links = async (
   req: NextApiRequest,
   res: NextApiResponse<FullLink | Error>
 ) => {
+  // Handle the gathering a link.
+  if (req.method === 'GET') {
+    console.log(req);
+
+    res.status(200).json({
+      message: 'Coucou',
+    });
+  }
+
+  // Handle the creation of a link.
   if (req.method === 'POST') {
     const body = JSON.parse(req.body);
 
