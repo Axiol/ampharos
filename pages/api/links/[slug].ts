@@ -4,6 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 const prisma = new PrismaClient();
 
 type Error = {
+  code: string;
   message: string;
 };
 
@@ -15,6 +16,7 @@ const links = async (
 
   if (!slug || typeof slug !== 'string') {
     res.status(404).json({
+      code: 'MISSING-BODY',
       message: 'Please use a slug',
     });
 
@@ -31,6 +33,7 @@ const links = async (
 
   if (!link) {
     res.status(404).json({
+      code: 'NOT-FOUND',
       message: 'No link found',
     });
 

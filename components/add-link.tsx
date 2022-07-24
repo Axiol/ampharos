@@ -5,11 +5,13 @@ const AddLink: React.FC = () => {
   const [slug, setSlug] = useState<string>('');
   const [newLink, setNewLink] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     setNewLink('');
+    setError('');
     setLoading(true);
 
     await fetch('/api/links', {
@@ -18,8 +20,21 @@ const AddLink: React.FC = () => {
     }).then((response) => {
       const jsonResponse = response.json();
       jsonResponse.then((json) => {
-        setNewLink(json.fullLink);
         setLoading(false);
+
+        if (!json.code) {
+          setNewLink(json.fullLink);
+
+          return;
+        }
+
+        if (json.code === 'DUPLICATE') {
+          setError(json.message);
+
+          return;
+        }
+
+        setError('An error occured');
       });
     });
   };
@@ -92,11 +107,17 @@ const AddLink: React.FC = () => {
       </form>
 
       <div className='flex items-center justify-between mt-4'>
-        <span className='w-2/5 border-b dark:border-gray-600 lg:w-1/5'></span>
-        <span className='text-xs text-center text-gray-500 uppercase dark:text-gray-400'>
-          Your link
-        </span>
-        <span className='w-2/5 border-b dark:border-gray-400 lg:w-1/5'></span>
+        <span className='w-1/4 border-b dark:border-gray-600 lg:w-1/5'></span>
+        {error === '' ? (
+          <span className='text-xs text-center text-gray-500 uppercase dark:text-gray-400'>
+            Your link
+          </span>
+        ) : (
+          <span className='text-xs text-center text-red-700 uppercase text-red-600'>
+            {error}
+          </span>
+        )}
+        <span className='w-1/4 border-b dark:border-gray-600 lg:w-1/5'></span>
       </div>
 
       <div className='flex items-center mt-4'>
