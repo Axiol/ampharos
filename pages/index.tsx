@@ -37,11 +37,11 @@ const Home: NextPage = () => {
           ) : (
             <>
               <div className='flex items-center justify-between mt-4'>
-                <span className='w-2/5 border-b dark:border-gray-600 lg:w-1/5'></span>
-                <span className='text-xs text-center text-gray-500 uppercase dark:text-gray-400'>
+                <span className='w-full border-b dark:border-gray-600'></span>
+                <span className='whitespace-nowrap text-xs text-center text-gray-500 uppercase dark:text-gray-400 mx-4'>
                   Log in
                 </span>
-                <span className='w-2/5 border-b dark:border-gray-400 lg:w-1/5'></span>
+                <span className='w-full border-b dark:border-gray-600'></span>
               </div>
 
               <div className='mt-4'>
