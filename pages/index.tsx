@@ -1,12 +1,17 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { unstable_getServerSession } from 'next-auth/next';
+import type { Session } from 'next-auth';
 
 import AddLink from '@components/add-link';
+import { authOptions } from '@api/auth/[...nextauth]';
 
-const Home: NextPage = () => {
-  const { data: session } = useSession();
+type HomeProps = {
+  serverSession: Session | null;
+};
 
+const Home: NextPage<HomeProps> = ({ serverSession }) => {
   return (
     <>
       <Head>
@@ -19,7 +24,7 @@ const Home: NextPage = () => {
             Ampharos
           </h1>
 
-          {session ? (
+          {serverSession ? (
             <>
               <AddLink />
 
@@ -71,3 +76,17 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const serverSession = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+
+  return {
+    props: {
+      serverSession,
+    },
+  };
+};
