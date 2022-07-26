@@ -8,12 +8,10 @@ import AddLink from '@components/add-link';
 import { authOptions } from '@api/auth/[...nextauth]';
 
 type HomeProps = {
-  foo: string;
-  session: Session | null;
+  serverSession: Session | null;
 };
 
-const Home: NextPage<HomeProps> = ({ foo, session }) => {
-  console.log('page', session);
+const Home: NextPage<HomeProps> = ({ serverSession }) => {
   return (
     <>
       <Head>
@@ -26,7 +24,7 @@ const Home: NextPage<HomeProps> = ({ foo, session }) => {
             Ampharos
           </h1>
 
-          {session ? (
+          {serverSession ? (
             <>
               <AddLink />
 
@@ -80,18 +78,15 @@ const Home: NextPage<HomeProps> = ({ foo, session }) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await unstable_getServerSession(
+  const serverSession = await unstable_getServerSession(
     context.req,
     context.res,
     authOptions
   );
 
-  console.log('getServerSideProps', session);
-
   return {
     props: {
-      foo: 'bar',
-      session,
+      serverSession,
     },
   };
 };
